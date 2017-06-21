@@ -8,7 +8,6 @@
 </head>
 <body>
 <script>
-
 var xmlHttpObj;
  
 function getHttpXmlObj(){
@@ -40,50 +39,6 @@ function doGetUserList(){
    	xmlHttpObj.send();
 	
 }
-function signup(){
-	xmlHttpObj = getHttpXmlObj(); 
-	var userid = document.getElementById("id").value;
-	var userpwd = document.getElementById("pwd").value;
-	var username = document.getElementById("name").value;
-	var userage = document.getElementById("age").value;
-   	//통신할 jsp명입니다.
-   	var url = "./loginAction.user?";
-   	var method = "get";
-   	var params = "action=SIGNUP&id=" + encodeURIComponent(userid) + "&pwd=" + encodeURIComponent(userpwd)
-   				+"&name=" + encodeURIComponent(username)+"&age=" + encodeURIComponent(userage);
-
-   	var sync = true;
-   	
-   	xmlHttpObj.onreadystatechange=function(){
-   		if (xmlHttpObj.readyState==4 && xmlHttpObj.status==200){
-       		document.getElementById("resultDiv").innerHTML=decodeURIComponent(xmlHttpObj.responseText);
-        }
-    }
-    //open으로 위의 기술한 jsp명과 통신을 연결합니다. 
-   	xmlHttpObj.open(method, url+params, sync);
-   	xmlHttpObj.send();
-}
-function doBoardWrite(){
-	xmlHttpObj = getHttpXmlObj(); 
-	var boardTitle = document.getElementById("Title").value;
-	var boardContent = document.getElementById("Content").value;
-	//통신할 jsp명입니다.
-   	var url = "./boardAction.board?";
-   	var method = "get";
-   	var params = "action=BOARDWRITE&Title=" + encodeURIComponent(boardTitle) + "&Content=" + encodeURIComponent(boardContent);
-   				
-
-   	var sync = true;
-   	
-   	xmlHttpObj.onreadystatechange=function(){
-   		if (xmlHttpObj.readyState==4 && xmlHttpObj.status==200){
-       		document.getElementById("resultDiv").innerHTML=decodeURIComponent(xmlHttpObj.responseText);
-        }
-    }
-    //open으로 위의 기술한 jsp명과 통신을 연결합니다. 
-   	xmlHttpObj.open(method, url+params, sync);
-   	xmlHttpObj.send();
-}
 function doGetBoardList(){
 	xmlHttpObj = getHttpXmlObj(); 
 	var url = "./boardAction.board?";
@@ -103,45 +58,11 @@ function doGetBoardList(){
 	
 	
 }
-function doSearchBoard(){
-	var searchTitle = document.getElementById('search_title').value;
-	var url = "./boardAction.board?";
-   	var method = "get";
-   	var params = "action=BOARDLIST&search_title=" + encodeURIComponent(searchTitle);
-
-   	var sync = true;
-   	
-   	xmlHttpObj.onreadystatechange=function(){
-   		if (xmlHttpObj.readyState==4 && xmlHttpObj.status==200){
-       		document.getElementById("resultDiv").innerHTML=decodeURIComponent(xmlHttpObj.responseText);
-        }
-    }
-    //open으로 위의 기술한 jsp명과 통신을 연결합니다. 
-   	xmlHttpObj.open(method, url+params, sync);
-   	xmlHttpObj.send();
-}
 function doLogout(){
 	xmlHttpObj = getHttpXmlObj(); 
 	var url = "./loginAction.user?";
    	var method = "get";
    	var params = "action=LOGOUT"
-
-   	var sync = true;
-	
-   	xmlHttpObj.onreadystatechange=function(){
-   		if (xmlHttpObj.readyState==4 && xmlHttpObj.status==200){
-       		document.getElementById("resultDiv").innerHTML=decodeURIComponent(xmlHttpObj.responseText);
-        }
-    }
-    //open으로 위의 기술한 jsp명과 통신을 연결합니다. 
-   	xmlHttpObj.open(method, url+params, sync);
-   	xmlHttpObj.send();
-}
-function doBoardModify(board){
-	xmlHttpObj = getHttpXmlObj(); 
-	var url = "./boardAction.board?";
-   	var method = "get";
-   	var params = "action=BOARDMODIFY&board_num="+board_num;
 
    	var sync = true;
 	
@@ -171,7 +92,7 @@ function doSignout(user_num){
    	xmlHttpObj.open(method, url+params, sync);
    	xmlHttpObj.send();
 }
-function doBoardDelete(board_num, boardWriter){
+function doBoardDelete(board_num){
 	xmlHttpObj = getHttpXmlObj(); 
 	var url = "./boardAction.board?";
    	var method = "get";
@@ -188,18 +109,15 @@ function doBoardDelete(board_num, boardWriter){
    	xmlHttpObj.open(method, url+params, sync);
    	xmlHttpObj.send();
 }
-function goWriteJsp(){
-	location.href="./boardWrite.jsp";
-	}
-
-function doLogin(){
+function doBoardWrite(){
 	xmlHttpObj = getHttpXmlObj(); 
-	var userid = document.getElementById("id").value;
-	var userpwd = document.getElementById("pwd").value;
-   	//통신할 jsp명입니다.
-   	var url = "./loginAction.user?";
+	var boardTitle = document.getElementById("title").value;
+	var boardContent = document.getElementById("content").value;
+	//통신할 jsp명입니다.
+   	var url = "./boardAction.board?";
    	var method = "get";
-   	var params = "action=LOGIN&id=" + encodeURIComponent(userid) + "&pwd=" + encodeURIComponent(userpwd);
+   	var params = "action=BOARDWRITE&Title=" + encodeURIComponent(boardTitle) + "&Content=" + encodeURIComponent(boardContent);
+   				
 
    	var sync = true;
    	
@@ -212,21 +130,50 @@ function doLogin(){
    	xmlHttpObj.open(method, url+params, sync);
    	xmlHttpObj.send();
 }
+	function doGoHome() {
+		location.href = "./login.jsp";
+	}
+	function doGoModify(){
+		location.href="./boardMoify.jsp";
+	}
+	function doLogin() {
+		xmlHttpObj = getHttpXmlObj();
+		var userid = document.getElementById("id").value;
+		var userpwd = document.getElementById("pwd").value;
+		//통신할 jsp명입니다.
+		var url = "./loginAction.user?";
+		var method = "get";
+		var params = "action=LOGIN&id=" + encodeURIComponent(userid) + "&pwd="
+				+ encodeURIComponent(userpwd);
+
+		var sync = true;
+
+		xmlHttpObj.onreadystatechange = function() {
+			if (xmlHttpObj.readyState == 4 && xmlHttpObj.status == 200) {
+				document.getElementById("resultDiv").innerHTML = decodeURIComponent(xmlHttpObj.responseText);
+			}
+		}
+		//open으로 위의 기술한 jsp명과 통신을 연결합니다. 
+		xmlHttpObj.open(method, url + params, sync);
+		xmlHttpObj.send();
+	}
 </script>
 <table border="1" cellspacing="0" cellpadding="0">
 	<tr>
-		<td colspan="2"> 로그인 </td> 
+		<td colspan="2"> 수정하기 </td> 
 	</tr>
 	<tr>
-		<td> ID : </td>
-		<td><input type="text" name="id" id="id" value="admin"/></td>
+		<td> 제목 : </td>
+		<td><input type="text" name="title" id="title"/></td>
 	</tr>
 	<tr>
-		<td> PassWord : </td>
-		<td><input type="text" name="pwd" id="pwd" value="admin@@"/></td>
+		<td> 내용 : </td>
+		<td><input type="text" name="content" id="content"/></td>
 	</tr>
 	<tr>
-		<td colspan="2"><input type="button" value="Login" onclick="doLogin();"/></td>
+		<td colspan="2"><input type="button" value="입력" onclick="doBoardModify("+ b.getBoardNum() + ")'/>";
+		<td colspan="2"><input type="button" value="처음" onclick="doGoHome();"/></td>
+		
 	</tr>
 </table>
 <div id="resultDiv"></div>

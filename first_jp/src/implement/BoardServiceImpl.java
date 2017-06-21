@@ -21,15 +21,11 @@ public class BoardServiceImpl implements BoardService {
 
 		try {
 			Connection con = DBConn.getCon();
-			String sql = "select board_num, board_title, board_content, board_writer, board_cdate, board_modifier, board_mdate from board where 1=1";
-
-			if (board.getBoardTitle() != null && !board.getBoardTitle().equals("")) {
-				sql += " and board_title like ?";
-			}
+			String sql = "call get_board_list(?)";
+			
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			if (board.getBoardTitle() != null && !board.getBoardTitle().equals("")) {
-				pstmt.setString(1, "%" + board.getBoardTitle() + "%");	
-			}
+			pstmt.setString(1,board.getBoardTitle());
+			
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 
@@ -64,15 +60,13 @@ public class BoardServiceImpl implements BoardService {
 	public boolean doBoardWrite(Board board) {
 		try {
 			Connection con = DBConn.getCon();
-			String sql = "insert into board"
-					+ "(board_title, board_content, board_writer, board_cdate, board_modifier, board_mdate)"
-					+ " values(?,?,?,now(),?,now())";
+			String sql = "call get_board_write(?,?,?)";
 
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, board.getBoardTitle());
 			pstmt.setString(2, board.getBoardContent());
 			pstmt.setString(3, board.getBoardWriter());
-			pstmt.setString(4, board.getBoardModifier());
+			
 
 			int resultNum = pstmt.executeUpdate();
 			if (resultNum == 1) {
@@ -85,11 +79,7 @@ public class BoardServiceImpl implements BoardService {
 		return false;
 	}
 
-	@Override
-	public boolean doBoardModify() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 	@Override
 	public Board getBoard() {
@@ -106,6 +96,25 @@ public class BoardServiceImpl implements BoardService {
 			String sql = "delete from board where board_num=?";
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, board.getBoardNum());
+			int result = pstmt.executeUpdate();
+			if (result == 1) {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean doBoardModify(Board board) {
+		try {
+			Connection con = DBConn.getCon();
+
+			String sql = "update board set board_title=?, board_content=? where board_num=?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, board.getBoardTitle());
+			pstmt.setInt(2, board.getBoardNum());
 			int result = pstmt.executeUpdate();
 			if (result == 1) {
 				return true;

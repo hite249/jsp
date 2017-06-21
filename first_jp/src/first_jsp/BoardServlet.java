@@ -56,8 +56,7 @@ public class BoardServlet extends HttpServlet {
 			result += "<td>" + b.getBoardMDate() + "</td>";
 			result += "<td><input type='button' value='Delete' onclick='doBoardDelete(" + b.getBoardNum()
 					+ ")'/>";
-			result += "<td><input type='button' value='Modify' onclick='doBoardModify(" + b.getBoardNum()
-			+ ")'/>";
+			result += "<td><input type='button' value='Modify' onclick='doGoBoardModify()'/>";
 			result += "</tr>";
 			
 			
@@ -84,7 +83,6 @@ public class BoardServlet extends HttpServlet {
 		
 			
 		} else if (action.equals("DELETE")) {
-			
 			int boardAdmin = (int) session.getAttribute("board_admin");
 			if (boardAdmin == 1) {
 				String boardNum = request.getParameter("board_num");
@@ -114,7 +112,16 @@ public class BoardServlet extends HttpServlet {
 			}
 			
 		}else if(action.equals("BOARDMODIFY")){
-			
+			int boardAdmin = (int) session.getAttribute("board_admin");
+			if (boardAdmin == 1) {
+				String boardNum = request.getParameter("board_num");
+				Board board = new Board();
+				board.setBoardNum((Integer.parseInt(boardNum)));
+				bs.doBoardModify(board);
+				result = "성공";
+			} else {
+				result = "안되";
+			}
 		}
 
 		resp.setContentType("text/html; charset = UTF-8");
