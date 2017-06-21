@@ -38,9 +38,10 @@ public class BoardServlet extends HttpServlet {
 		result += "<td>삭제</td>";
 		result += "<td>수정</td>";
 		result += "</tr>";
+		
 		if(BoardList.size()==0){
 			result += "<tr>";
-			result += "<td colspan><align='center'>게시물이 없습니다.</td>";
+			result += "<td colspan='9' align='center'>게시물이 없습니다.</td>";
 			result += "</tr>";
 		}
 		
@@ -58,12 +59,14 @@ public class BoardServlet extends HttpServlet {
 			result += "<td><input type='button' value='Modify' onclick='doBoardModify(" + b.getBoardNum()
 			+ ")'/>";
 			result += "</tr>";
-			return result; 
+			
 			
 		}
-				
+		result += "<tr>";
 		result += "<td colspan='9' align ='right'><input type='button' value='Write' onclick='goWriteJsp()'/>";
-		return result += "</table border>";
+		result += "</tr>";
+		result += "</table border>";
+		return result;
 		
 		
 		

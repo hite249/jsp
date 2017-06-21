@@ -112,8 +112,8 @@ function doBoardDelete(board_num){
 }
 function doBoardWrite(){
 	xmlHttpObj = getHttpXmlObj(); 
-	var boardTitle = document.getElementById("Title").value;
-	var boardContent = document.getElementById("Content").value;
+	var boardTitle = document.getElementById("title").value;
+	var boardContent = document.getElementById("content").value;
 	//통신할 jsp명입니다.
    	var url = "./boardAction.board?";
    	var method = "get";
