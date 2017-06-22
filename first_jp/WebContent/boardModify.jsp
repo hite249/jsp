@@ -108,8 +108,27 @@ function doBoardDelete(board_num){
     //open으로 위의 기술한 jsp명과 통신을 연결합니다. 
    	xmlHttpObj.open(method, url+params, sync);
    	xmlHttpObj.send();
-}
-function doBoardWrite(){
+}function doBoardModify(){
+	xmlHttpObj = getHttpXmlObj(); 
+	var boardTitle = document.getElementById("title").value;
+	var boardContent = document.getElementById("content").value;
+	//통신할 jsp명입니다.
+   	var url = "./boardAction.board?";
+   	var method = "get";
+   	var params = "action=BOARDMODIFY&Title=" + encodeURIComponent(boardTitle) + "&Content=" + encodeURIComponent(boardContent)+board_num;
+   				
+
+   	var sync = true;
+   	
+   	xmlHttpObj.onreadystatechange=function(){
+   		if (xmlHttpObj.readyState==4 && xmlHttpObj.status==200){
+       		document.getElementById("resultDiv").innerHTML=decodeURIComponent(xmlHttpObj.responseText);
+        }
+    }
+    //open으로 위의 기술한 jsp명과 통신을 연결합니다. 
+   	xmlHttpObj.open(method, url+params, sync);
+   	xmlHttpObj.send();
+}function doBoardWrite(){
 	xmlHttpObj = getHttpXmlObj(); 
 	var boardTitle = document.getElementById("title").value;
 	var boardContent = document.getElementById("content").value;
@@ -171,7 +190,7 @@ function doBoardWrite(){
 		<td><input type="text" name="content" id="content"/></td>
 	</tr>
 	<tr>
-		<td colspan="2"><input type="button" value="입력" onclick="doBoardModify("+ b.getBoardNum() + ")'/>";
+		<td colspan="2"><input type="button" value="입력" onclick="doBoardModify();"/>
 		<td colspan="2"><input type="button" value="처음" onclick="doGoHome();"/></td>
 		
 	</tr>

@@ -112,15 +112,20 @@ public class BoardServlet extends HttpServlet {
 			}
 			
 		}else if(action.equals("BOARDMODIFY")){
-			int boardAdmin = (int) session.getAttribute("board_admin");
-			if (boardAdmin == 1) {
-				String boardNum = request.getParameter("board_num");
-				Board board = new Board();
-				board.setBoardNum((Integer.parseInt(boardNum)));
-				bs.doBoardModify(board);
-				result = "성공";
+			String boardTitle = request.getParameter("Title");
+			String boardContent = request.getParameter("Content");
+			Board board = new Board();
+			board.setBoardTitle(boardTitle);
+			board.setBoardContent(boardContent);
+			board.setBoardWriter((String)session.getAttribute("id"));
+			board.setBoardModifier((String)session.getAttribute("id"));
+			
+			boolean isModify = bs.doBoardModify(board);
+			if (isModify) {
+				result += " 성공";
 			} else {
-				result = "안되";
+				result += " 실패";
+
 			}
 		}
 
