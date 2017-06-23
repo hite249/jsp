@@ -108,7 +108,7 @@ function doBoardDelete(board_num){
     //open으로 위의 기술한 jsp명과 통신을 연결합니다. 
    	xmlHttpObj.open(method, url+params, sync);
    	xmlHttpObj.send();
-}function doBoardModify(){
+}function doBoardModify(board_num){
 	xmlHttpObj = getHttpXmlObj(); 
 	var boardTitle = document.getElementById("title").value;
 	var boardContent = document.getElementById("content").value;

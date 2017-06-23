@@ -114,7 +114,8 @@ public class BoardServiceImpl implements BoardService {
 			String sql = "update board set board_title=?, board_content=? where board_num=?";
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, board.getBoardTitle());
-			pstmt.setInt(2, board.getBoardNum());
+			pstmt.setString(2, board.getBoardContent());
+			pstmt.setInt(3, board.getBoardNum());
 			int result = pstmt.executeUpdate();
 			if (result == 1) {
 				return true;

@@ -114,11 +114,12 @@ public class BoardServlet extends HttpServlet {
 		}else if(action.equals("BOARDMODIFY")){
 			String boardTitle = request.getParameter("Title");
 			String boardContent = request.getParameter("Content");
+			int boardNum = (int)session.getAttribute("boardNum");
 			Board board = new Board();
+			board.setBoardNum(boardNum);
 			board.setBoardTitle(boardTitle);
 			board.setBoardContent(boardContent);
-			board.setBoardWriter((String)session.getAttribute("id"));
-			board.setBoardModifier((String)session.getAttribute("id"));
+			
 			
 			boolean isModify = bs.doBoardModify(board);
 			if (isModify) {
