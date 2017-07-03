@@ -1,6 +1,13 @@
 package com.test.ioc.ch2;
 
-public class Hyundai implements Maker{
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service("hyundai")
+public class Hyundai implements CarMaker{
+	@Autowired
+	private Car car;
 
 	public Hyundai(){}
 	public Car sell(Money money){

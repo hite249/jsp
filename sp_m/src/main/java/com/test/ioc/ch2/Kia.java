@@ -1,6 +1,12 @@
 package com.test.ioc.ch2;
 
-public class Kia implements Maker{
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service("kia")
+public class Kia implements CarMaker{
+	@Autowired
+	private Car car;
 
 	public Kia(){}
 	public Car sell(Money money){

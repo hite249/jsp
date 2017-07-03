@@ -1,6 +1,10 @@
 package com.test.ioc.ch2;
 
+import org.springframework.stereotype.Component;
+
+@Component("money")
 public class Money {
+	
 	private int amt;
 	public Money(){}
 	public Money(int amt){
