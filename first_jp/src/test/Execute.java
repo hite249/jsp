@@ -16,6 +16,12 @@ import java.util.Scanner;
 public class Execute {
 	Connection con;
 	PreparedStatement ps;
+	String id;
+	String pwd;
+	String name;
+	String classnum;
+	String age;
+	
 	Execute(){
 		try{
 			con = DBConn.getCon();
@@ -56,24 +62,28 @@ public class Execute {
 		System.out.println(result + "갯수 만큼 수정 되었습니다.");
 	}
 	
-	public void insertUserInfo(){
+	public void insertUserInfo() throws SQLException{
 		String sql = "insert into user_info(user_id, user_pwd, user_name, class_num, age)";
+		sql +=" values(" + id + ", " + pwd + ", " + name + ", " + classnum + ", " + age + ")";
+		
+		ps = con.prepareStatement(sql);
+		int result = ps.executeUpdate(sql);
 	}
 
 	
 	
-	public static void main(String[] args){
-		
-		try {
-			Execute ec = new Execute();
-			ArrayList<HashMap> userInfoList = ec.selectUserInfo();
-			for(HashMap hm : userInfoList){
-				System.out.println(hm);
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public static void main(String[] args) throws SQLException{
+		Execute ec = new Execute();
+//		try {
+//			
+//			ArrayList<HashMap> userInfoList = ec.selectUserInfo();
+//			for(HashMap hm : userInfoList){
+//				System.out.println(hm);
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		Scanner scan = new Scanner(System.in);
 		System.out.println("사용하실 서비스번호를 입력해주세요.");
 		System.out.println("1. 유저리스트");
@@ -82,12 +92,40 @@ public class Execute {
 		
 		int command = Integer.parseInt(scan.nextLine());
 		if(command==1){
-			System.out.println("1");
-			ec.
+			System.out.println("1. 유저리스트 선택");
+			try {
+				
+				ArrayList<HashMap> userInfoList = ec.selectUserInfo();
+				for(HashMap hm : userInfoList){
+					System.out.println(hm);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}else if(command==2){
-			System.out.println("2");
+			System.out.println("2. 회원가입");
+			System.out.println("id?");
+			ec.id=scan.next();
+			System.out.println("password?");
+			ec.pwd=scan.next();
+			System.out.println("name?");
+			ec.name=scan.next();
+			System.out.println("class?");
+			ec.classnum=scan.next();
+			System.out.println("age?");
+			ec.age=scan.next();
+			
+			
+			ec.insertUserInfo();
+			
+			System.out.println("가입완료~!!");
+			
 		}else if(command==3){
-			System.out.println("3");
+			System.out.println("3. 회원 탈퇴");
+			ec.deleteUserInfo();
+			
 		}else{
 			System.out.println("서비스번호를 잘못 입력하셨습니다.");
 		}
