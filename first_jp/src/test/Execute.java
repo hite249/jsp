@@ -64,7 +64,7 @@ public class Execute {
 	
 	public void insertUserInfo() throws SQLException{
 		String sql = "insert into user_info(user_id, user_pwd, user_name, class_num, age)";
-		sql +=" values(" + id + ", " + pwd + ", " + name + ", " + classnum + ", " + age + ")";
+		sql +=" values('" + id + "', '" + pwd + "', '" + name + "', '" + classnum + "', '" + age + "')";
 		
 		ps = con.prepareStatement(sql);
 		int result = ps.executeUpdate(sql);
