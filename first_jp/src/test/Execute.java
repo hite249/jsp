@@ -15,8 +15,8 @@ public class Execute {
 	String id;
 	String pwd;
 	String name;
-	String classnum;
-	String age;
+	int classnum;
+	int age;
 
 	Execute() {
 		try {
@@ -76,7 +76,16 @@ public class Execute {
 		ps = con.prepareStatement(sql);
 		int result = ps.executeUpdate(sql);
 	}
-
+	public int getIntString() {
+		Scanner scan = new Scanner(System.in);
+		String str = scan.nextLine();
+		try{
+			return Integer.parseInt(str);
+		}catch(Exception e){
+			System.out.println("숫자 !!!");
+			return getIntString();
+		}
+	}
 	public static void main(String[] args) throws SQLException {
 		Execute ec = new Execute();
 
@@ -101,17 +110,17 @@ public class Execute {
 			}
 
 		} else if (command == 2) {
-			System.out.println("2. 회원가입");
+			System.out.println("2. 회원가입 선택");
 			System.out.println("id?");
 			ec.id = scan.next();
 			System.out.println("password?");
 			ec.pwd = scan.next();
 			System.out.println("name?");
 			ec.name = scan.next();
-			System.out.println("class(int)?");
-			ec.classnum = scan.next();
-			System.out.println("age(int)?");
-			ec.age = scan.next();
+			System.out.println("class(숫자로 입력)?");
+			ec.classnum = ec.getIntString();
+			System.out.println("age(숫자로입력)?");
+			ec.age = ec.getIntString();
 
 			ec.insertUserInfo();
 
