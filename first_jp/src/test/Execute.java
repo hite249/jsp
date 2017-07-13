@@ -12,11 +12,6 @@ import java.util.Scanner;
 public class Execute {
 	Connection con;
 	PreparedStatement ps;
-	String id;
-	String pwd;
-	String name;
-	int classnum;
-	int age;
 
 	Execute() {
 		try {
@@ -25,38 +20,6 @@ public class Execute {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public ArrayList<HashMap> selectUserInfo() throws SQLException {
-		ArrayList<HashMap> userInfoList = new ArrayList<HashMap>();
-		String sql = "select user_num, user_id, user_pwd, user_name, class_num, age from user_info";
-		ps = con.prepareStatement(sql);
-		ResultSet rs = ps.executeQuery();
-		ResultSetMetaData rsmd = rs.getMetaData();
-		int colCnt = rsmd.getColumnCount();
-		while (rs.next()) {
-			HashMap hm = new HashMap();
-			for (int i = 1; i <= colCnt; i++) {
-				String name = rsmd.getColumnLabel(i);
-				hm.put(name, rs.getString(name));
-			}
-			userInfoList.add(hm);
-		}
-		return userInfoList;
-	}
-
-	public void deleteUserInfo() throws SQLException {
-		try {
-			String sql = "delete from user_info";
-			sql += " where user_id='" + id + "' and user_pwd='" + pwd + "'";
-
-			ps = con.prepareStatement(sql);
-			int result = ps.executeUpdate();
-			System.out.println(id + "님 탈퇴 완료");
-		} catch (Exception e) {
-			System.out.println("ID와 PASSWORD가 일치하지 않습니다.");
-		}
-
 	}
 
 	public void updateUserInfo() throws SQLException {
@@ -68,25 +31,10 @@ public class Execute {
 		int result = ps.executeUpdate();
 		System.out.println(result + "갯수 만큼 수정 되었습니다.");
 	}
-
-	public void insertUserInfo() throws SQLException {
-		String sql = "insert into user_info(user_id, user_pwd, user_name, class_num, age)";
-		sql += " values('" + id + "', '" + pwd + "', '" + name + "', '" + classnum + "', '" + age + "')";
-
-		ps = con.prepareStatement(sql);
-		int result = ps.executeUpdate(sql);
-	}
-	public int getIntString() {
-		Scanner scan = new Scanner(System.in);
-		String str = scan.nextLine();
-		try{
-			return Integer.parseInt(str);
-		}catch(Exception e){
-			System.out.println("숫자 !!!");
-			return getIntString();
-		}
-	}
+	
 	public static void main(String[] args) throws SQLException {
+		UserService us = new UserServiceImpl();
+		User user = new User();
 		Execute ec = new Execute();
 
 		Scanner scan = new Scanner(System.in);
@@ -100,7 +48,7 @@ public class Execute {
 			System.out.println("1. 유저리스트 선택");
 			try {
 
-				ArrayList<HashMap> userInfoList = ec.selectUserInfo();
+				ArrayList<HashMap> userInfoList = us.selectUserInfo(user);
 				for (HashMap hm : userInfoList) {
 					System.out.println(hm);
 				}
@@ -112,28 +60,39 @@ public class Execute {
 		} else if (command == 2) {
 			System.out.println("2. 회원가입 선택");
 			System.out.println("id?");
-			ec.id = scan.next();
+			String id = scan.next();
+			user.setUser_id(id);
+			
 			System.out.println("password?");
-			ec.pwd = scan.next();
+			String pwd = scan.next();
+			user.setUser_pwd(pwd);
+			
 			System.out.println("name?");
-			ec.name = scan.next();
+			String name = scan.next();
+			user.setUser_name(name);
+			
 			System.out.println("class(숫자로 입력)?");
-			ec.classnum = ec.getIntString();
+			String classnum = scan.next();
+			user.setClass_num(Integer.parseInt(classnum));
 			System.out.println("age(숫자로입력)?");
-			ec.age = ec.getIntString();
+			String age = scan.next();
+			user.setAge(Integer.parseInt(age));
 
-			ec.insertUserInfo();
+			us.insertUserInfo(user);
 
-			System.out.println(ec.id + "님 가입완료~!!");
+			System.out.println(user.getUser_name() + "님 가입완료~!!");
 
 		} else if (command == 3) {
 			System.out.println("3. 회원 탈퇴선택");
 			System.out.println("탈퇴하실 id?");
-			ec.id = scan.next();
+			String id = scan.next();
+			user.setUser_id(id);
+			
 			System.out.println("탈퇴하실 password?");
-			ec.pwd = scan.next();
+			String pwd = scan.next();
+			user.setUser_pwd(pwd);
 
-			ec.deleteUserInfo();
+			us.deleteUserInfo(user);
 
 		} else {
 			System.out.println("서비스번호를 잘못 입력하셨습니다.");
