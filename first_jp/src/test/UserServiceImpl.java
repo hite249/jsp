@@ -7,6 +7,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 
 
@@ -37,6 +38,28 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean insertUserInfo(User user) throws SQLException{
 		Connection con = DBConn.getCon();
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.println("2. 회원가입 선택");
+		System.out.println("id?");
+		String id = scan.next();
+		user.setUser_id(id);
+		
+		System.out.println("password?");
+		String pwd = scan.next();
+		user.setUser_pwd(pwd);
+		
+		System.out.println("name?");
+		String name = scan.next();
+		user.setUser_name(name);
+		
+		System.out.println("class(숫자로 입력)?");
+		String classnum = scan.next();
+		user.setClass_num(Integer.parseInt(classnum));
+		System.out.println("age(숫자로입력)?");
+		String age = scan.next();
+		user.setAge(Integer.parseInt(age));
+		
 		String sql = "insert into user_info(user_id, user_pwd, user_name, class_num, age)";
 		sql += " values('" +  user.getUser_id()+ "', '" + user.getUser_pwd() + "', '" + user.getUser_name() + "', '" + user.getClass_num() + "', '" + user.getAge() + "')";
 
@@ -48,6 +71,16 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean deleteUserInfo(User user) throws SQLException {
 		Connection con =DBConn.getCon();
+		Scanner scan = new Scanner(System.in);
+		System.out.println("3. 회원 탈퇴선택");
+		System.out.println("탈퇴하실 id?");
+		String id = scan.next();
+		user.setUser_id(id);
+		
+		System.out.println("탈퇴하실 password?");
+		String pwd = scan.next();
+		user.setUser_pwd(pwd);
+
 		
 		try {
 			String sql = "delete from user_info";

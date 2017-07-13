@@ -58,39 +58,12 @@ public class Execute {
 			}
 
 		} else if (command == 2) {
-			System.out.println("2. 회원가입 선택");
-			System.out.println("id?");
-			String id = scan.next();
-			user.setUser_id(id);
-			
-			System.out.println("password?");
-			String pwd = scan.next();
-			user.setUser_pwd(pwd);
-			
-			System.out.println("name?");
-			String name = scan.next();
-			user.setUser_name(name);
-			
-			System.out.println("class(숫자로 입력)?");
-			String classnum = scan.next();
-			user.setClass_num(Integer.parseInt(classnum));
-			System.out.println("age(숫자로입력)?");
-			String age = scan.next();
-			user.setAge(Integer.parseInt(age));
-
+		
 			us.insertUserInfo(user);
 
 			System.out.println(user.getUser_name() + "님 가입완료~!!");
 
 		} else if (command == 3) {
-			System.out.println("3. 회원 탈퇴선택");
-			System.out.println("탈퇴하실 id?");
-			String id = scan.next();
-			user.setUser_id(id);
-			
-			System.out.println("탈퇴하실 password?");
-			String pwd = scan.next();
-			user.setUser_pwd(pwd);
 
 			us.deleteUserInfo(user);
 
