@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>html5/css3 수업예제</title>
+<style type="text/css">
+#panel{
+	width: 350px;
+	height: 500px;
+	overflow: auto;
+}
+</style>
+<script type="text/javascript">
+function init(){
+	/* 전역변수 주는법에 주의합시다 !!*/
+	box=document.getElementById("cmbCnt");
+	pnl=document.getElementById("panel");
+	for(var i=1; i<=50; i++){
+		box.options[i-1] = new Option(i,i);
+	}
+	
+}
+
+function  txtbox_mouse(){
+	if(event.type == "mouseover"){
+	event.srcElement.style.border = "solid 1px red";
+	event.srcElement.style.background = "gray";
+	}else if(event.type == "mouseout"){
+		event.srcElement.style.border = "solid 1px black";
+		event.srcElement.style.background = "white";	
+	}
+}
+
+
+
+function cmb_change() {
+	pnl.innerHTML="";
+	var sidx = box.selectedIndex;
+	//선택된 옵션의 value, text
+	var n = box.options[sidx].value;
+	// [DOM] 동적으로 텍스트 박스 생성...
+	// document.createElement()
+	// document.appendChild()
+	for(var i=1;i<=n; i++){
+	var txtbox = document.createElement("input");
+	txtbox.type="text";
+	txtbox.id="txt"+i;
+	txtbox.name="txt"+i;
+	txtbox.style.border="solid 1px gray";
+	txtbox.style.margin="3px";
+	// 1. 동적 이벤트등록
+	//txtbox.onmouseover = txtbox_mouse();
+	//txtbox.onmouseout = txtbox_mouse();
+	
+	// 2. 익명 메소드를 사용해서 이벤트 등록
+	txtbox.onmouseover = function(){
+		event.srcElement.style.border = "solid 1px red";
+		event.srcElement.style.background = "gray";
+	};
+	txtbox.onmouseout = function(){
+		event.srcElement.style.border = "solid 1px black";
+		event.srcElement.style.background = "white";
+	};
+	
+	
+/* 	txtbox.onfocus=change;
+	txtbox.onblur=change; */
+	pnl.appendChild(txtbox);
+	pnl.appendChild(document.createElement("br"));
+	}
+}
+</script>
+
+</head>
+<body onload="init()">
+<h3>동적 컨트롤 생성</h3>
+텍스트 박스 생성: <select id="cmbCnt" 
+onchange="cmb_change()"></select>
+<hr>
+<div id="panel"></div>
+</body>
+</html>

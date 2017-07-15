@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>숫자</title>
+
+</head>
+
+<!-- 텍스트박스에 숫자 입력시 생성버튼을 누르면  숫자만큼의 텍스트박스가 생성되고 아래 텍스트 박스 하나 더 생성 및 검색 버튼 생성
+
+	그 텍스트 박스에 임의의 숫자 및 문자 입력후 아래라인의 검색 박스에 검색 누를 시 해당하는 박스에 포커스
+
+-->
+
+ 
+
+<script>
+var xmlHttpObj;
+
+function getHttpXmlObj(){
+    //해당브라우져가 익스플로러 7.0 이상이거나 파이어폭스, 크롭 등일경우
+	if(window.XMLHttpRequest){
+  		return new XMLHttpRequest();
+ 	}else if(window.ActiveXObject){
+  		//해당 브라우져가 익스플로러 6.0 이하일경우
+  		return new ActiveXObject("Microsoft.XMLHTTP");
+ 	}
+	//해당 브라우져가 듣보잡일경우.. 어떤 브라우져 인진 나도 모름.
+	alert("해당 브라우져가  Ajax를 지원하지 않습니다.");
+}
+function makeThing(){
+	xmlHttpObj = getHttpXmlObj(); 
+	var url = "./testAction.test?";
+   	var method = "get";
+   	var params = "action=MAKETHING"
+
+   	var sync = true;
+	
+   	xmlHttpObj.onreadystatechange=function(){
+   		if (xmlHttpObj.readyState==4 && xmlHttpObj.status==200){
+       		document.getElementById("resultDiv").innerHTML=decodeURIComponent(xmlHttpObj.responseText);
+        }
+    }
+    //open으로 위의 기술한 jsp명과 통신을 연결합니다. 
+   	xmlHttpObj.open(method, url+params, sync);
+   	xmlHttpObj.send();
+	
+}
+function doGetUserList(){
+	xmlHttpObj = getHttpXmlObj(); 
+	var url = "./loginAction.user?";
+   	var method = "get";
+   	var params = "action=USERLIST"
+
+   	var sync = true;
+	
+   	xmlHttpObj.onreadystatechange=function(){
+   		if (xmlHttpObj.readyState==4 && xmlHttpObj.status==200){
+       		document.getElementById("resultDiv").innerHTML=decodeURIComponent(xmlHttpObj.responseText);
+        }
+    }
+    //open으로 위의 기술한 jsp명과 통신을 연결합니다. 
+   	xmlHttpObj.open(method, url+params, sync);
+   	xmlHttpObj.send();
+	
+}
+</script>
+
+<body>
+
+	<form>
+
+	생성갯수:
+
+		<input type=text  name="makething" id ="makething"/>
+
+		<input type="button" onclick="makeThing(this)" value="생성!"/>
+
+		<div id="resultDiv"></div>
+
+	</form>
+
+</body>
+
+</html>

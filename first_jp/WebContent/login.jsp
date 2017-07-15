@@ -42,6 +42,7 @@ function doGetUserList(){
 }
 function signup(){
 	xmlHttpObj = getHttpXmlObj(); 
+	
 	var userid = document.getElementById("id").value;
 	var userpwd = document.getElementById("pwd").value;
 	var username = document.getElementById("name").value;
@@ -189,13 +190,42 @@ function doBoardDelete(board_num, boardWriter){
    	xmlHttpObj.send();
 
 	}
+	function input(){
+	var input = document.getElementById("input").value; 
+	temp = input;
+	}
+	
+
+
 	function goWriteJsp() {
 		location.href = "./boardWrite.jsp";
 	}
 	function doGoBoardModify() {
 		location.href = "./boardModify.jsp";
 	}
+	function doLogin11() {
+		xmlHttpObj = getHttpXmlObj();
+		
+		var id = document.getElementById("id").value;
+		var pwd = document.getElementById("pwd").value;
+		//통신할 jsp명입니다.
+		var url = "./loginAction.user?";
+		var method = "get";
+		var params = "action=LOGIN11N&id=" + encodeURIComponent(id) + "&pwd="
+		+ encodeURIComponent(pwd);
+				
 
+		var sync = true;
+
+		xmlHttpObj.onreadystatechange = function() {
+			if (xmlHttpObj.readyState == 4 && xmlHttpObj.status == 200) {
+				document.getElementById("resultDiv").innerHTML = decodeURIComponent(xmlHttpObj.responseText);
+			}
+		}
+		//open으로 위의 기술한 jsp명과 통신을 연결합니다. 
+		xmlHttpObj.open(method, url + params, sync);
+		xmlHttpObj.send();
+	}
 	function doLogin() {
 		xmlHttpObj = getHttpXmlObj();
 		var userid = document.getElementById("id").value;
@@ -233,6 +263,11 @@ function doBoardDelete(board_num, boardWriter){
 	<tr>
 		<td colspan="2"><input type="button" value="Login" onclick="doLogin();"/></td>
 	</tr>
+	<!--  
+	<tr>
+		<td colspan="2"><input type="button" value="Login" onclick="doLogin();"/></td>
+	</tr>
+	-->
 </table>
 <div id="resultDiv"></div>
 </body>

@@ -36,6 +36,10 @@ public class ServletUser extends HttpServlet {
 				session.setAttribute("board_admin", user.getBoard_admin());
 				result += id + "님 로그인에 성공 하셨습니다.<input type='button' value='logout'onclick='doLogout()'/>";
 				result += "<br/><input type='button' value='게시판불러오기' onclick='doGetBoardList()'/>";
+				String aa = request.getParameter("id");
+				result +="<br/>";
+				result +="id :";
+				result += aa+"<br/>";
 				if (user.getAdmin() == 1) {
 					result += "<br/><input type='button' value='유저리스트불러오기' onclick='doGetUserList()'/>";
 				}
@@ -107,6 +111,21 @@ public class ServletUser extends HttpServlet {
 		} else {
 			result = "권한 없음";
 		}
+	}else if(action.equals("LOGIN11"))
+	{
+		
+		
+//		String aa = request.getParameter("id");
+		
+		result +="id :";
+		result += "<br/>";
+//		result +="aa :"+aa+"<br/>";
+		
+		result +="hello";
+//		for(int i=1;i<=maxnum;i++){
+//			result +="<input type='text'/>";
+//		}
+		
 	}
 
 	resp.setContentType("text/html; charset = UTF-8");
